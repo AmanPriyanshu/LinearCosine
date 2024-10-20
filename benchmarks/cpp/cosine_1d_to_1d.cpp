@@ -168,7 +168,7 @@ int main() {
 
         double timeReduction = (1.0 - static_cast<double>(lMulAvgTime) / mulAvgTime) * 100;
 
-        cout << mantissaBits << "," << lMulMSE << "," << lMulAvgTime << "," << mulMSE << "," << mulAvgTime << "," << timeReduction << endl;
+        cout << mantissaBits << "," << lMulMSE << "," << lMulAvgTime << "," << mulMSE << "," << mulAvgTime << "," << timeReduction << "%" << endl;
     }
 
     return 0;
