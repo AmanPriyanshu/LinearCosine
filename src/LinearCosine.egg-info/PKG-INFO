@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: LinearCosine
+Version: 0.1.0
+Summary: Adding beats multiplying for lower-precision efficient cosine similarity
+Home-page: https://github.com/AmanPriyanshu/LinearCosine
+Author: Aman Priyanshu
+Author-email: amanpriyanshusms2001@gmail.com
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pybind11>=2.4
+
+# LinearCosine
+LinearCosine: Adding beats multiplying for lower-precision efficient cosine similarity
