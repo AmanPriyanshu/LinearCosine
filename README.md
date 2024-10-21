@@ -3,6 +3,42 @@
 
 This repository contains a simple C++ benchmarking experiment inspired by the paper ["Addition is All You Need for Energy-efficient Language Models" by Hongyin Luo and Wei Sun (2024)](https://arxiv.org/abs/2410.00907). The experiment explores the performance of the proposed Linear-complexity Multiplication (L-Mul) algorithm compared to standard low-precision multiplication in the context of cosine similarity calculations.
 
+## TLDR: Technical Explanation
+
+The L-Mul algorithm proposes an efficient approximation of floating-point multiplication using primarily integer addition operations. Here's a quick breakdown:
+
+### Standard Floating-Point Multiplication
+
+The traditional method multiplies two floating-point numbers as follows:
+
+$$\text{Mul}(x,y) = (1 + x_m) \cdot 2^{x_e} \cdot (1 + y_m) \cdot 2^{y_e} = (1 + x_m + y_m + x_m \cdot y_m) \cdot 2^{x_e + y_e}$$
+
+Where $x_m$ and $y_m$ are mantissas, and $x_e$ and $y_e$ are exponents.
+
+### L-Mul Algorithm
+
+The L-Mul method approximates this multiplication:
+
+$$\mathcal{L}\text{-Mul}(x,y) = (1 + x_m + y_m + 2^{-l(m)}) \cdot 2^{x_e + y_e}$$
+
+Where $l(m)$ is defined as:
+
+$$l(m) = \begin{cases} 
+m & \text{if } m \leq 3, \\ 
+3 & \text{if } m = 4, \\ 
+4 & \text{if } m > 4. 
+\end{cases}$$
+
+Here, $m$ represents the number of mantissa bits.
+
+### Key Differences
+
+- L-Mul replaces the $x_m \cdot y_m$ term with a constant $2^{-l(m)}$.
+- This substitution allows the operation to be performed primarily with integer addition.
+- The $l(m)$ function adjusts the precision based on the number of mantissa bits used.
+
+This approximation significantly reduces computational complexity and energy consumption while maintaining competitive accuracy, especially for lower-precision operations common in many AI tasks.
+
 ## Background
 
 Large neural networks, especially language models, consume significant computational resources and energy. The paper proposes L-Mul, an algorithm that approximates floating-point multiplication using integer addition operations. This approach aims to reduce energy consumption and potentially increase computational efficiency. While implementing the full L-Mul algorithm in neural networks was beyond the scope of my experiment, I decided to focus on optimizing cosine similarity calculations, which are crucial for many information retrieval and RAG (Retrieval-Augmented Generation) applications that are already widespread in the AI industry.
