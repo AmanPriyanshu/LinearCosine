@@ -85,13 +85,42 @@
 
     <div class="container">
         <div class="disclaimer">
-            <strong>Important Note:</strong> This project is an unofficial benchmark implementation based on the research paper "Addition is All You Need for Energy-efficient Language Models" by Hongyin Luo and Wei Sun (2024). It is not the original work of the authors and is intended solely for educational and exploratory purposes.
+            <strong>Important Note:</strong> This project is an unofficial benchmark implementation focusing on cosine similarity calculations, based on concepts from the research paper "Addition is All You Need for Energy-efficient Language Models" by Hongyin Luo and Wei Sun (2024). It applies their proposed L-Mul algorithm to cosine similarity computations, but is not the original work of the authors and is intended solely for my own exploratory purposes.
         </div>
 
         <p style="text-align: center;">
             <a href="https://github.com/AmanPriyanshu/LinearCosine" class="button" target="_blank">GitHub Implementation of Below</a>
             <a href="https://arxiv.org/abs/2410.00907" class="button" target="_blank">Read the Original Paper</a>
         </p>
+
+        <h2>TLDR: Technical Explanation</h2>
+        <p>The L-Mul algorithm proposes an efficient approximation of floating-point multiplication using primarily integer addition operations. Here's a quick breakdown:</p>
+
+        <h3>Standard Floating-Point Multiplication</h3>
+        <p>The traditional method multiplies two floating-point numbers as follows:</p>
+        <pre><code>Mul(x,y) = (1 + x_m) · 2^x_e · (1 + y_m) · 2^y_e
+                = (1 + x_m + y_m + x_m · y_m) · 2^(x_e + y_e)</code></pre>
+        <p>Where x_m and y_m are mantissas, and x_e and y_e are exponents.</p>
+
+        <h3>L-Mul Algorithm</h3>
+        <p>The L-Mul method approximates this multiplication:</p>
+        <pre><code>L-Mul(x,y) = (1 + x_m + y_m + 2^-l(m)) · 2^(x_e + y_e)</code></pre>
+        <p>Where l(m) is defined as:</p>
+        <pre><code>l(m) = {
+            m   if m ≤ 3,
+            3   if m = 4,
+            4   if m > 4
+        }</code></pre>
+        <p>Here, m represents the number of mantissa bits.</p>
+
+        <h3>Key Differences</h3>
+        <ul>
+            <li>L-Mul replaces the x_m · y_m term with a constant 2^-l(m).</li>
+            <li>This substitution allows the operation to be performed primarily with integer addition.</li>
+            <li>The l(m) function adjusts the precision based on the number of mantissa bits used.</li>
+        </ul>
+
+        <p>The paper states that this approximation significantly reduces computational complexity and energy consumption while maintaining competitive accuracy, especially for lower-precision operations common in many AI tasks.</p>
 
         <h2>About This Benchmark</h2>
         <p>
